@@ -60,11 +60,11 @@ def result(board, action):
     """
     move = player(board)
     result_board = copy.deepcopy(board)
-    for i,j in action:
-        if (result_board[i][j]!=EMPTY):
-            raise Exception("Invalid Move")
-        else:
-            result_board[i][j]=move
+    i,j = action
+    if (result_board[i][j]!=EMPTY):
+        raise Exception("Invalid Move")
+    else:
+        result_board[i][j]=move
     return result_board
 
 def winner(board):
@@ -93,6 +93,8 @@ def terminal(board):
     """
     Returns True if game is over, False otherwise.
     """
+    if (winner(board) != None):
+        return True
     for i in board:
         for j in i:
             if (j==EMPTY):
@@ -118,4 +120,4 @@ def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
-    raise NotImplementedError
+    return actions(board).pop()
