@@ -71,7 +71,22 @@ def winner(board):
     """
     Returns the winner of the game, if there is one.
     """
-    raise NotImplementedError
+    if ((board[0][0] == board[1][1]) and (board[1][1]==board[2][2])):
+        return board[0][0]
+    elif ((board[0][2] == board[1][1]) and (board[1][1]==board[2][0])):
+        return board[0][2]
+    
+    for i in range (0,3):
+        j=0
+        if ((board[i][j]==board[i][j+1]) and (board[i][j+1]==board[i][j+2])):
+            return board[i][j]
+    
+    for j in range (0,3):
+        i=0
+        if ((board[i][j]==board[i+1][j]) and (board[i+1][j]==board[i+2][j])):
+            return board[i][j]
+    
+    return None
 
 
 def terminal(board):
