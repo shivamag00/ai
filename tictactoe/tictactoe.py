@@ -46,7 +46,7 @@ def actions(board):
     row=0
     for i in board:
         column=0
-        for j in board:
+        for j in i:
             if (j==EMPTY):
                 act.add((row,column))
             column=column+1
@@ -71,19 +71,19 @@ def winner(board):
     """
     Returns the winner of the game, if there is one.
     """
-    if ((board[0][0] == board[1][1]) and (board[1][1]==board[2][2])):
+    if ((board[0][0] == board[1][1]) and (board[1][1]==board[2][2]) and (board[0][0] != None)):
         return board[0][0]
-    elif ((board[0][2] == board[1][1]) and (board[1][1]==board[2][0])):
+    elif ((board[0][2] == board[1][1]) and (board[1][1]==board[2][0]) and (board[0][2] != None)):
         return board[0][2]
     
     for i in range (0,3):
         j=0
-        if ((board[i][j]==board[i][j+1]) and (board[i][j+1]==board[i][j+2])):
+        if ((board[i][j]==board[i][j+1]) and (board[i][j+1]==board[i][j+2]) and (board[i][j] != None)):
             return board[i][j]
     
     for j in range (0,3):
         i=0
-        if ((board[i][j]==board[i+1][j]) and (board[i+1][j]==board[i+2][j])):
+        if ((board[i][j]==board[i+1][j]) and (board[i+1][j]==board[i+2][j]) and (board[i][j] != None)):
             return board[i][j]
     
     return None
@@ -93,14 +93,25 @@ def terminal(board):
     """
     Returns True if game is over, False otherwise.
     """
-    raise NotImplementedError
+    for i in board:
+        for j in i:
+            if (j==EMPTY):
+                return False
+    return True
 
 
 def utility(board):
     """
     Returns 1 if X has won the game, -1 if O has won, 0 otherwise.
     """
-    raise NotImplementedError
+    if (terminal(board)):
+        if (winner(board)==X):
+            return 1
+        elif (winner(board) == O):
+            return -1
+        else:
+            return None
+    return None
 
 
 def minimax(board):
