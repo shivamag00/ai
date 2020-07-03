@@ -8,6 +8,7 @@ import copy
 X = "X"
 O = "O"
 EMPTY = None
+pref_action=None
 
 
 def initial_state():
@@ -112,7 +113,7 @@ def utility(board):
         elif (winner(board) == O):
             return -1
         else:
-            return None
+            return 0
     return None
 
 
@@ -120,4 +121,35 @@ def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
-    return actions(board).pop()
+    if(player(board)==X):
+        maxvalue(board)
+        print(pref_action)
+        return pref_action
+    else:
+        minvalue(board)
+        print(pref_action)
+        return pref_action
+
+def minvalue(board):
+    if (terminal(board)):
+        return utility(board)
+    v = 99999999
+    for actionss in actions(board):
+        vc = maxvalue(result(board,actionss))
+        if(v>=vc):
+            v = vc
+            global pref_action
+            pref_action = actionss
+    return v
+
+def maxvalue(board):
+    if (terminal(board)):
+        return utility(board)
+    v = -99999999
+    for actionsss in actions(board):
+        vc = minvalue(result(board,actionsss))
+        if (v <= vc):
+            v=vc
+            global pref_action
+            pref_action=actionsss
+    return v
