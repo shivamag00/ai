@@ -4,6 +4,7 @@ Tic Tac Toe Player
 
 import math
 import copy
+from operator import itemgetter
 
 X = "X"
 O = "O"
@@ -121,35 +122,30 @@ def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
+    listk=[]
     if(player(board)==X):
-        maxvalue(board)
-        print(pref_action)
-        return pref_action
+        for action in actions(board):
+            b=minvalue(result(board,action))
+            listk.append((b,action))
+        return max(listk, key = itemgetter(0))[1]
     else:
-        minvalue(board)
-        print(pref_action)
-        return pref_action
+        for action in actions(board):
+            b=maxvalue(result(board,action))
+            listk.append((b,action))
+        return min(listk, key = itemgetter(0))[1]
 
 def minvalue(board):
     if (terminal(board)):
         return utility(board)
     v = 99999999
-    for actionss in actions(board):
-        vc = maxvalue(result(board,actionss))
-        if(v>=vc):
-            v = vc
-            global pref_action
-            pref_action = actionss
+    for action in actions(board):
+        v = min(v,maxvalue(result(board,action)))
     return v
 
 def maxvalue(board):
     if (terminal(board)):
         return utility(board)
     v = -99999999
-    for actionsss in actions(board):
-        vc = minvalue(result(board,actionsss))
-        if (v <= vc):
-            v=vc
-            global pref_action
-            pref_action=actionsss
+    for action in actions(board):
+        v = max(v,minvalue(result(board,action)))
     return v
